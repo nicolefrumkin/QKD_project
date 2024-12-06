@@ -178,7 +178,7 @@ int main(int argc, char** argv) {
     printf("                                       Final Key (%d bits)                                               \n", count_bits(final_key));
     printf("========================================================================================================\n\n");
     print_with_spaces(final_key, config.key_size);
-    printf("final_calib_error_bits_count=%d out of %d key-size (%d %%)\n", statistics.final_calib_error_bits_count, config.key_size, statistics.final_calib_error_bits_count * 100 / config.key_size);
+    printf("\n\nfinal_calib_error_bits_count=%d out of %d key-size (%d %%)\n", statistics.final_calib_error_bits_count, config.key_size, statistics.final_calib_error_bits_count * 100 / config.key_size);
     printf("final_eve_error_bits_count=%d out of %d key-size (%d %%)\n", statistics.final_eve_error_bits_count, config.key_size, statistics.final_eve_error_bits_count * 100 / config.key_size);
     printf("stats: eves_attack_detected=%d out of %d key-sections\n", statistics.eves_attack_detected, statistics.eves_sections_participated);
     printf("stats: total_run_sections=%d\n", statistics.total_run_sections);
@@ -439,7 +439,7 @@ char* generate_calib_key(const char* akey)
 
 char* introduce_eve_errors(char* alice_photons, char* key_clib_err) {
     int replace_count;
-    int rand_num;
+    // int rand_num;
     int pos;
     char measur_base;
     char measur_bit;
