@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1B1CC4392CDE5E4E0068A91F /* libxlsxio_read.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B1CC4382CDE5E4E0068A91F /* libxlsxio_read.dylib */; };
+		1BF6B6B32CE25CDD00F130EB /* libxlsxio_write.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF6B6B22CE25CDD00F130EB /* libxlsxio_write.dylib */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		1BB2C7D82CDE18F200F2B838 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -19,7 +24,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1B1CC4382CDE5E4E0068A91F /* libxlsxio_read.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxlsxio_read.dylib; path = ../../xlsxio/build/libxlsxio_read.dylib; sourceTree = "<group>"; };
 		1BB2C7DA2CDE18F200F2B838 /* QKD_project */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = QKD_project; sourceTree = BUILT_PRODUCTS_DIR; };
+		1BF6B6B22CE25CDD00F130EB /* libxlsxio_write.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxlsxio_write.dylib; path = ../../xlsxio/build/libxlsxio_write.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -35,16 +42,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B1CC4392CDE5E4E0068A91F /* libxlsxio_read.dylib in Frameworks */,
+				1BF6B6B32CE25CDD00F130EB /* libxlsxio_write.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B1CC4372CDE5E4E0068A91F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1BF6B6B22CE25CDD00F130EB /* libxlsxio_write.dylib */,
+				1B1CC4382CDE5E4E0068A91F /* libxlsxio_read.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		1BB2C7D12CDE18F200F2B838 = {
 			isa = PBXGroup;
 			children = (
 				1BB2C7DC2CDE18F200F2B838 /* QKD_project */,
+				1B1CC4372CDE5E4E0068A91F /* Frameworks */,
 				1BB2C7DB2CDE18F200F2B838 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -178,6 +197,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "/Users/nicolefrumkin/xlsxio/include/**";
+				LIBRARY_SEARCH_PATHS = /Users/nicolefrumkin/xlsxio/lib;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -233,6 +254,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "/Users/nicolefrumkin/xlsxio/include/**";
+				LIBRARY_SEARCH_PATHS = /Users/nicolefrumkin/xlsxio/lib;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -245,6 +268,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = /Users/nicolefrumkin/xlsxio;
+				LIBRARY_SEARCH_PATHS = "/Users/nicolefrumkin/Desktop/QKD_project/QKD_project/xlsxio/include/Users/nicolefrumkin/Desktop/QKD_project/QKD_project/xlsxio/include/**";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -253,6 +279,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = /Users/nicolefrumkin/xlsxio;
+				LIBRARY_SEARCH_PATHS = "/Users/nicolefrumkin/Desktop/QKD_project/QKD_project/xlsxio/include/Users/nicolefrumkin/Desktop/QKD_project/QKD_project/xlsxio/include/**";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

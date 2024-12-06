@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QKD - Quantum Key Distribution</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .header {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .subheader {
+            font-size: 1.5em;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .body-text {
+            font-size: 1.2em;
+            text-align: left;
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .body-text img {
+            display: block;
+            margin: 0 auto 20px auto;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .dropdown-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dropdown-container label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        .dropdown-container select {
+            width: 150px;
+            padding: 8px;
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+
+        .submit-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">QKD - Quantum Key Distribution</div>
+    <div class="subheader">A project by: Nicole Frumkin & Keren Koifman</div>
+    <div class="body-text">
+        <img src="{{ url_for('static', filename='first_image.png') }}" alt="QKD Illustration">
+        <p>
+            You are Alice!<br>
+            You&#39;re trying to pass a key to Bob in order to encrypt a message. Please choose the following parameters:
+        </p>
+    </div>
+
+    <form method="POST" action="/submit">
+        <div class="dropdown-container">
+            <label for="key_size">Key Size (bits)</label>
+            <select id="key_size" name="key_size">
+                <option value="1024">1024</option>
+                <option value="2048">2048</option>
+                <option value="4096">4096</option>
+            </select>
+
+            <label for="key_part_size">Key Part Size (bits)</label>
+            <select id="key_part_size" name="key_part_size">
+                <option value="32">32</option>
+                <option value="64">64</option>
+                <option value="128">128</option>
+            </select>
+
+            <label for="eavesdropping">Eavesdropping</label>
+            <select id="eavesdropping" name="eavesdropping">
+                <option value="1">Enable</option>
+                <option value="0">Disable</option>
+            </select>
+
+            <label for="calib_error_percentage">Calibration Error Percentage</label>
+            <select id="calib_error_percentage" name="calib_error_percentage">
+                <option value="1">1%</option>
+                <option value="2">2%</option>
+                <option value="3">3%</option>
+                <option value="4">4%</option>
+                <option value="5">5%</option>
+                <option value="6">6%</option>
+                <option value="7">7%</option>
+                <option value="8">8%</option>
+                <option value="9">9%</option>
+                <option value="10">10%</option>
+            </select>
+
+            <label for="eve_error_percentage">Eve Listening Percentage in a Section</label>
+            <select id="eve_error_percentage" name="eve_error_percentage">
+                <option value="25">25%</option>
+                <option value="50">50%</option>
+                <option value="75">75%</option>
+                <option value="100">100%</option>
+            </select>
+
+            <label for="eve_percent_section">Eve Sections Listened</label>
+            <select id="eve_percent_section" name="eve_percent_section">
+                <option value="25">25%</option>
+                <option value="50">50%</option>
+                <option value="75">75%</option>
+                <option value="100">100%</option>
+            </select>
+
+            <label for="allowed_wrong_bits">Allowed Wrong Bits in a Section</label>
+            <select id="allowed_wrong_bits" name="allowed_wrong_bits">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+
+            <button class="submit-button" type="submit">Submit</button>
+        </div>
+    </form>
+
+</body>
+</html>
