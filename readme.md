@@ -25,13 +25,13 @@ Quantum Key Distribution (QKD) is a secure communication method that uses quantu
 ## Screenshots
 
 ### GUI Interface
-![GUI Interface](./images/Screenshot-2025-01-07-160617.png)
+![GUI Interface](./images/GUI Interface.png)
 
 ### Configuration Details and Legend
-![Configuration Details and Legend](./images/Screenshot-2025-01-07-160550.png)
+![Configuration Details and Legend](./images/Configuration Details and Legend.png)
 
 ### Section Results
-![Section Results](./images/Screenshot-2025-01-07-160539.png)
+![Section Results](./images/Section Results.png)
 
 ---
 
