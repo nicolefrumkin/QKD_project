@@ -17,29 +17,37 @@ def display_output():
     data = [
         ["1", "0", "0", "1", "0", "1", "0", "0", "1"],
         ["↔", "↕", "↔", "↗", "↘", "↔", "↕", "↔", "↕"],
-        ["+", "×", "+", "+", "×", "×", "+", "×", "+"],
-        ["✓", "×", "✓", "✓", "✓", "×", "✓", "×", "×"],
+        ["+", "x", "+", "+", "x", "x", "+", "x", "+"],
+        ["✓", "✗", "✓", "✓", "✓", "✗", "✓", "✗", "✗"],
         ["-", "0", "-", "1", "1", "0", "-", "-", "-"],
         ["-", "1", "-", "0", "-", "-", "-", "-", "-"],
         ["0", "-", "1", "-", "1", "-", "-", "1", "0"]
     ]
     colors = {
-        "↔": "blue", "↕": "green", "↗": "orange", "↘": "pink",
-        "+": "yellow", "×": "red", "✓": "lightgreen", "×": "red",
-        "0": "white", "1": "black", "-": "gray"
+        "↔": "#226fb1",  # blue
+        "↕": "#1ba84d",  # green
+        "↗": "#fcbd14",  # orange
+        "↘": "#e12927",  # red
+        "+": "#0f969e",  # light-blue
+        "x": "#ed3e94",  # pink
+        "✗": "white",
+        "✓": "white",    # white
+        "0": "white",    # white
+        "1": "white",    # white
+        "-": "white"     # white
     }
 
     # Add labels to the grid
     for row, (label_text, row_data) in enumerate(zip(labels, data)):
         # Row label
-        label = tk.Label(grid_frame, text=label_text, font=("Arial", 14, "bold"), anchor="e", width=20)
+        label = tk.Label(grid_frame, text=label_text, font=("Arial", 9, "bold"), anchor="e", width=20)
         label.grid(row=row, column=0, padx=5, pady=5, sticky="e")
 
         # Data cells
         for col, value in enumerate(row_data):
             bg_color = colors.get(value, "white")
-            cell = tk.Label(grid_frame, text=value, bg=bg_color, font=("Arial", 12, "bold"), width=5, height=2)
-            cell.grid(row=row, column=col + 1, padx=5, pady=5)
+            cell = tk.Label(grid_frame, text=value, bg=bg_color, font=("Arial", 9, "bold"), width=2, height=1)
+            cell.grid(row=row, column=col + 1, padx=0.5, pady=0.5)
 
     # Add a "Back" button to return to the initial view
     back_button = tk.Button(root, text="Back", command=main_view, font=("Arial", 12))

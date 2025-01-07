@@ -73,7 +73,7 @@ int main(int argc, char** argv) {
 
     key_eve_changed = (char*)malloc(sizeof(char) * (config.key_part_size + 1));
     if (key_eve_changed == NULL) return 1;
-    memset(key_eve_changed, ' ', config.key_part_size);
+    memset(key_eve_changed, '-', config.key_part_size);
     key_eve_changed[config.key_part_size] = '\0';
 
     while (count_bits(final_key) < config.key_size) {
@@ -109,7 +109,7 @@ int main(int argc, char** argv) {
                 print_with_spaces(single_photons_eve, config.key_part_size);
                 printf(" Eve key - bits changed: ");
                 print_with_spaces(key_eve_changed, config.key_part_size);
-                // memset(key_eve_changed, ' ', config.key_part_size);
+                // memset(key_eve_changed, '-', config.key_part_size);
             }
             printf(" Measurement Bases:      ");
             print_with_spaces(measurement_bases, config.key_part_size);
@@ -168,7 +168,7 @@ int main(int argc, char** argv) {
             key_bit_errors = 0;
             eve_attack_detected = 0;
             if (config.eavesdropping)
-                memset(key_eve_changed, ' ', config.key_part_size);
+                memset(key_eve_changed, '-', config.key_part_size);
         }
         not_valid = 1;
     }
@@ -238,7 +238,7 @@ void print_config(void)
     printf(" Calibration Error Percentage:    %d%%\n", config.calib_error_percentage);
     printf(" Eve Error Percentage:            %d%%\n", config.eve_error_percentage);
     printf(" Eve Reproduction Percentage:     %d%%\n", config.eve_percent_reproduce);
-    printf(" Eve section Eavesdropping %%:    %d%%\n", config.eve_percent_section);
+    printf(" Eve section Eavesdropping %%:     %d%%\n", config.eve_percent_section);
     printf(" Allowed Wrong Bits:              %d bit(s)\n", config.allowed_wrong_bits);
 }
 
@@ -564,15 +564,15 @@ char* compare_polars(char* single_photons, char* measurement_bases) {
     for (int i = 0; i < config.key_part_size; i++) {
         // rectillinear case (+)
         if ((single_photons[i] == 'v' || single_photons[i] == 'h') && (measurement_bases[i] == '+')) {
-            measurement_results[i] = 'v';
+            measurement_results[i] = 'V';
         }
         // diagonal case (x)
         else if ((single_photons[i] == 'b' || single_photons[i] == 'd') && (measurement_bases[i] == 'x')) {
-            measurement_results[i] = 'v';
+            measurement_results[i] = 'V';
         }
         // no match found
         else {
-            measurement_results[i] = 'x';
+            measurement_results[i] = 'X';
         }
     }
 
@@ -603,7 +603,7 @@ char* create_bobs_key(char* single_photons, char* measurement_bases) {
             //else {
             //    bobs_key[i] = '0';  // Second half (50-99) -> generate '0'
             //}
-            bobs_key[i] = ' ';
+            bobs_key[i] = '-';
         }
     }
 
@@ -617,11 +617,11 @@ char* create_sifted_keys(char* key, char* single_photons, char* measurement_resu
     char* skey = (char*)malloc(sizeof(char) * (config.key_part_size + 1));  // +1 for null terminator
     if (skey == NULL) return NULL;
 
-    memset(skey, ' ', sizeof(char) * (config.key_part_size + 1));
+    memset(skey, '-', sizeof(char) * (config.key_part_size + 1));
 
     for (int i = 0; i < config.key_part_size; i++)
     {
-        if (measurement_results[i] == 'v')
+        if (measurement_results[i] == 'V')
         {
             skey[i] = bobs_key[i];
         }
@@ -641,7 +641,7 @@ char* create_key_distillation(char* sifted_keys, char* alice_key, char* single_p
 
     *error_key = (char*)malloc(sizeof(char) * (config.key_part_size + 1));  // +1 for null terminator
     if (*error_key == NULL) return NULL;
-    memset(*error_key, ' ', config.key_part_size);
+    memset(*error_key, '-', config.key_part_size);
     (*error_key)[config.key_part_size] = '\0';
 
     // copy sifted keys to dkey
@@ -650,7 +650,7 @@ char* create_key_distillation(char* sifted_keys, char* alice_key, char* single_p
     // count how many valid bits in sifted keys
     for (int i = 0; i < config.key_part_size; i++)
     {
-        if (sifted_keys[i] != ' ')
+        if (sifted_keys[i] != '-')
         {
             valid_count++;
         }
@@ -663,7 +663,7 @@ char* create_key_distillation(char* sifted_keys, char* alice_key, char* single_p
         while (1)
         {
             bit_offset = rand() % config.key_part_size;
-            if (dkey[bit_offset] == ' ' || dkey[bit_offset] == '@')
+            if (dkey[bit_offset] == '-' || dkey[bit_offset] == '@')
                 continue;
             else
                 break;
@@ -687,7 +687,7 @@ char* create_key_distillation(char* sifted_keys, char* alice_key, char* single_p
         if (dkey[i] == '@')
             dkey[i] = sifted_keys[i];
         else
-            dkey[i] = ' ';
+            dkey[i] = '-';
 
     return dkey;
 }
@@ -698,7 +698,7 @@ char* create_secret_keys(char* sifted_keys, char* key_distillation)
     if (secret_keys == NULL) return NULL;
 
     // Initialize the array with spaces
-    memset(secret_keys, ' ', sizeof(char) * config.key_part_size);
+    memset(secret_keys, '-', sizeof(char) * config.key_part_size);
 
     secret_keys[config.key_part_size] = '\0';  // Null-terminate the string
 
