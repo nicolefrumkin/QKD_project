@@ -1,5 +1,7 @@
 
 # Quantum Key Distribution (QKD) Simulator
+![image](https://github.com/user-attachments/assets/5d6b38fb-498d-4c0e-a6cc-40b5ac284d29)
+
 
 This project is a **Quantum Key Distribution (QKD)** simulator built using **Python** for the GUI and **C** for the backend simulation. The system enables users to simulate a QKD process with configurable parameters, visualize the results, and analyze the key distribution.
 
