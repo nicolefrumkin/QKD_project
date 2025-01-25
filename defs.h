@@ -54,7 +54,8 @@ double percent_of_correct_final_keys(char* secret_keys, char* key);
 char* introduce_eve_errors(char* single_photons, char* key_clib_err);
 void read_config(int argc, char** argv);
 int count_bits(const char* str);
-int copy_valid_keys(char* final_key, const char* secret_keys, int offset, int key_part_size);
+int copy_valid_keys(char* final_key, char* final_alice_key, const char* secret_keys, const char* key, int offset, int key_part_size);
+int write_to_file_final_keys(const char *secret_keys, const char *filename);
 
 // this line marks the end of the block
 #endif // DEFS_H
