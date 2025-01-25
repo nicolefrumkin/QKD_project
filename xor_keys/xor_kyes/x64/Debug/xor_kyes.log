@@ -1,0 +1,3 @@
+﻿  xor_kyes.cpp
+C:\Users\Keren\Desktop\QKD_project\XOR\xor_kyes\xor_kyes\xor_kyes.cpp(24,1): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  xor_kyes.vcxproj -> C:\Users\Keren\Desktop\QKD_project\XOR\xor_kyes\x64\Debug\xor_kyes.exe

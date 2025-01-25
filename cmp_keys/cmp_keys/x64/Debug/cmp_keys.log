@@ -1,0 +1,3 @@
+﻿  cmp_keys.cpp
+C:\Users\Keren\Desktop\QKD_project\XOR\cmp_keys\cmp_keys\cmp_keys.cpp(21,1): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  cmp_keys.vcxproj -> C:\Users\Keren\Desktop\QKD_project\XOR\cmp_keys\x64\Debug\cmp_keys.exe

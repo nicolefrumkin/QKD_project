@@ -198,7 +198,7 @@ def display_sections(parsed_data, parent_frame):
         row += 1
     # Add Filter Symbols Section
     filter_title = tk.Label(symbols_frame, text="Filter Symbols", font=("Arial", 12, "bold"), anchor="w")
-    filter_title.grid(row=row, column=0, columnspan=2, padx=1, pady=10, sticky="w")
+    filter_title.grid(row=row, column=0, columnspan=2, padx=1, pady=2, sticky="w")
     row += 1
 
     filter_content = {
@@ -207,7 +207,17 @@ def display_sections(parsed_data, parent_frame):
         "h": "Horizontal Basis",
         "b": "Diagonal Basis (-45°)",
     }
+
+    count2 = row
+    filter_title = tk.Label(symbols_frame, text="(bit = 0):", font=("Arial", 10), anchor="w")
+    filter_title.grid(row=row, column=0, columnspan=2, padx=1, pady=3, sticky="w")
+    row+=1
     for symbol, description in filter_content.items():
+        if row == count2 + 3:
+            filter_title = tk.Label(symbols_frame, text="(bit = 1):", font=("Arial", 10), anchor="w")
+            filter_title.grid(row=row, column=0, columnspan=2, padx=1, pady=10, sticky="w")
+            row += 1
+        
         # Extract the visual representation and color
         visual = symbol_mapping.get(symbol, symbol)
         bg_color = colors.get(visual, "SystemButtonFace")
@@ -221,7 +231,7 @@ def display_sections(parsed_data, parent_frame):
         description_label.grid(row=row, column=1, padx=1, pady=2, sticky="w")
 
         row += 1
-
+    
     # Add Measurement Symbols Section
     measurement_title = tk.Label(symbols_frame, text="Measurement Symbols", font=("Arial", 12, "bold"), anchor="w")
     measurement_title.grid(row=row, column=0, columnspan=2, padx=1, pady=10, sticky="w")
@@ -278,9 +288,9 @@ def display_sections(parsed_data, parent_frame):
                     cell.grid(row=row, column=col, padx=0.5, pady=0.5)
                 row += 1
 
-        if count == 3:
-            break
-        count += 1
+        #if count == 3:
+        #    break
+        #count += 1
 
 # GUI Setup
 root = tk.Tk()
