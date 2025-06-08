@@ -5,7 +5,8 @@ import subprocess
 import threading
 
 def on_submit():
-    root.geometry("1536x864+300+100")  # Resize for a larger view
+    root.attributes('-fullscreen', True)  
+    root.bind("<Escape>", lambda e: root.attributes("-fullscreen", False))
     initial_frame.pack_forget()  # Hide the initial frame
 
     # Create a container frame for scrolling
@@ -55,12 +56,12 @@ def on_submit():
         try:
             # Run the C program and capture its output
             args = [
-                "./main.exe",
+                r"C:\Users\nicol\Documents\QKD_project\main.exe",
                 key_size.get(),             # Key Size
                 key_part_size.get(),        # Key Part Size
-                calibration_error.get().strip('%'),  # Calibration Error Percentage (strip '%' if present)
-                eve_listen_percent.get().strip('%'),  # Eve Error Percentage
-                eve_sections_listened.get().strip('%'),  # Eve Reproduction Percentage
+                calib_error_percentage.get().strip('%'),  # Calibration Error Percentage (strip '%' if present)
+                eve_percent_reproduce.get().strip('%'),  # Eve Error Percentage
+                eve_percent_section.get().strip('%'),  # Eve Reproduction Percentage
                 allowed_wrong_bits.get(),   # Allowed Wrong Bits
                 "1" if eavesdropping.get() == "Enable" else "0"  # Eavesdropping (1 if enabled, 0 if disabled)
             ]
@@ -90,11 +91,11 @@ def parse_c_output(output):
     current_section = None
     for line in output.splitlines():
         line = line.strip()
-        if line.startswith("=" * 40) or line.startswith("-" * 40):
+        if line.startswith("=" * 20) or line.startswith("-" * 20) or line.startswith("*") or line.startswith(" "):
             continue
         elif not line:
             continue
-        elif line.startswith("Section #") or line.startswith("Final Key"):
+        elif line.startswith("Section #") or line.startswith("Regenerating Section #") or line.startswith("Final Key") or line.startswith("Summary"):
             current_section = line
             sections[current_section] = []
         else:
@@ -147,9 +148,9 @@ def display_sections(parsed_data, parent_frame):
         "Key Part Size": f"{key_part_size.get()} bits",
         "Number of Key Parts": f"{int(key_size.get()) // int(key_part_size.get())}",
         "Eavesdropping": f"{eavesdropping.get()}",
-        "Calibration Error Percentage": f"{calibration_error.get()}",
-        "Eve Error Percentage": f"{eve_listen_percent.get()}",
-        "Eve Section Eavesdropping": f"{eve_sections_listened.get()}",
+        "Calibration Error Percentage": f"{calib_error_percentage.get()}",
+        "Eve Error Percentage": f"{eve_percent_reproduce.get()}",
+        "Eve Section Eavesdropping": f"{eve_percent_section.get()}",
         "Allowed Wrong Bits": f"{allowed_wrong_bits.get()} bits",
     }
     title_label = tk.Label(data_frame, text="Configuration Details", font=("Arial", 12, "bold"), anchor="w")
@@ -295,7 +296,8 @@ def display_sections(parsed_data, parent_frame):
 # GUI Setup
 root = tk.Tk()
 root.title("QKD - Quantum Key Distribution")
-root.geometry("1536x864")
+root.attributes('-fullscreen', True)
+root.bind("<Escape>", lambda e: root.attributes("-fullscreen", False))
 
 # Create an initial frame to hold all the initial widgets
 initial_frame = tk.Frame(root)
@@ -333,11 +335,11 @@ description = tk.Label(initial_frame, text="You are Alice!\nYou're trying to pas
 description.pack(pady=10)
 
 key_size = create_dropdown("Key Size (bits)", ["1024", "2048", "4096"], "1024", initial_frame)
-key_part_size = create_dropdown("Key Part Size (bits)", ["16", "32", "64"], "32", initial_frame)
+key_part_size = create_dropdown("Key Part Size (bits)", ["32", "64", "128"], "32", initial_frame)
 eavesdropping = create_dropdown("Eavesdropping", ["Enable", "Disable"], "Enable", initial_frame)
-calibration_error = create_dropdown("Calibration Error Percentage", ["1%", "5%", "10%"], "1%", initial_frame)
-eve_listen_percent = create_dropdown("Eve Listening Percentage in a Section", ["10%", "25%", "50%"], "25%", initial_frame)
-eve_sections_listened = create_dropdown("Eve Sections Listened", ["10%", "25%", "50%"], "25%", initial_frame)
+calib_error_percentage = create_dropdown("Calibration Error Percentage", ["1%", "5%", "10%"], "1%", initial_frame)
+eve_percent_reproduce = create_dropdown("Eve Listening Percentage in a Section", ["10%", "25%", "50%"], "10%", initial_frame)
+eve_percent_section = create_dropdown("Eve Sections Listened", ["10%", "25%", "50%"], "25%", initial_frame)
 allowed_wrong_bits = create_dropdown("Allowed Wrong Bits in a Section", ["0", "1", "2", "5"], "1", initial_frame)
 
 submit_button = tk.Button(initial_frame, text="Submit", command=on_submit, bg="green", font=("Arial", 12, "bold"))

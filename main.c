@@ -21,14 +21,11 @@
 
 config_st config;    // defining the variable config that holds the configuration settings
 stats_st statistics; // statistics holds the execution statistics
-int global_count = 0;
 char *key_eve_changed = NULL;
 
 int main(int argc, char **argv)
 {
     // initializing parameters
-    // double correct_bits_measured;
-    // double correct_final_keys;
     clock_t start_time = clock();
     int not_valid = 1;
     int key_bit_errors = 0; // count key-bit errors by comparing Alice's key vs distillation key
@@ -37,7 +34,7 @@ int main(int argc, char **argv)
     int prev_section_num = 1;
     char *key = NULL;
     char *key_clib_err = NULL;
-    char *key_section = NULL;
+    // char *key_section = NULL;
     char *bobs_key = NULL;
     char *measurement_bases = NULL;
     char *single_photons = NULL;
@@ -99,17 +96,16 @@ int main(int argc, char **argv)
     {
         while (not_valid)
         {
-            if (global_count < 3)
-            {
-                // generate section
-                printf("\n========================================================================================================\n");
-                if (prev_section_num != section_num)
-                    printf("                                       Section #%d (%d bits):                                           \n", section_num, config.key_part_size);
-                else
-                    printf("                            Regenerating Section #%d (%d bits) Due to Errors                            \n", section_num, config.key_part_size);
 
-                printf("========================================================================================================\n\n");
-            }
+            // generate section
+            printf("\n========================================================================================================\n");
+            if (prev_section_num == section_num)
+                printf("                                       Section #%d (%d bits):                                           \n", section_num, config.key_part_size);
+            else
+                printf("                            Regenerating Section #%d (%d bits) Due to Errors                            \n", section_num, config.key_part_size);
+
+            printf("========================================================================================================\n\n");
+
             statistics.total_run_sections++;
             key = generate_key(); // alice generated key
             key_clib_err = generate_calib_key(key);
@@ -124,40 +120,39 @@ int main(int argc, char **argv)
             // key_distillation = create_key_distillation(sifted_keys, key, &error_key, &key_bit_errors);
             key_distillation = create_key_distillation(sifted_keys, key, single_photons, single_photons_eve, &error_key, &key_bit_errors);
             secret_keys = create_secret_keys(sifted_keys, key_distillation);
-            if (global_count < 3)
-            {
-                printf(" Alice's Key:            ");
-                print_with_spaces(key, config.key_part_size);
-                printf(" Key with Calib Errors:  ");
-                print_with_spaces(key_clib_err, config.key_part_size);
-                printf(" Single Photons:         ");
-                print_with_spaces(single_photons, config.key_part_size);
 
-                if (config.eavesdropping)
-                {
-                    printf(" Single Photons (Eve):   ");
-                    print_with_spaces(single_photons_eve, config.key_part_size);
-                    printf(" Eve key - bits changed: ");
-                    print_with_spaces(key_eve_changed, config.key_part_size);
-                    // memset(key_eve_changed, ' ', config.key_part_size);
-                }
-                printf(" Measurement Bases:      ");
-                print_with_spaces(measurement_bases, config.key_part_size);
-                printf(" Measurement Results:    ");
-                print_with_spaces(measurement_results, config.key_part_size);
-                printf(" Bob's Key:              ");
-                print_with_spaces(bobs_key, config.key_part_size);
-                printf(" Sifted Keys:            ");
-                print_with_spaces(sifted_keys, config.key_part_size);
-                printf(" Key Distillation:       ");
-                print_with_spaces(key_distillation, config.key_part_size);
-                printf(" Key Bits Error:         ");
-                print_with_spaces(error_key, config.key_part_size);
-                printf(" Secret Keys:            ");
-                print_with_spaces(secret_keys, config.key_part_size);
-                printf(" Final Secret Keys:      ");
-                print_final_keys(secret_keys);
+            printf(" Alice's Key:            ");
+            print_with_spaces(key, config.key_part_size);
+            printf(" Key with Calib Errors:  ");
+            print_with_spaces(key_clib_err, config.key_part_size);
+            printf(" Single Photons:         ");
+            print_with_spaces(single_photons, config.key_part_size);
+
+            if (config.eavesdropping)
+            {
+                printf(" Single Photons (Eve):   ");
+                print_with_spaces(single_photons_eve, config.key_part_size);
+                printf(" Eve key - bits changed: ");
+                print_with_spaces(key_eve_changed, config.key_part_size);
+                // memset(key_eve_changed, ' ', config.key_part_size);
             }
+            printf(" Measurement Bases:      ");
+            print_with_spaces(measurement_bases, config.key_part_size);
+            printf(" Measurement Results:    ");
+            print_with_spaces(measurement_results, config.key_part_size);
+            printf(" Bob's Key:              ");
+            print_with_spaces(bobs_key, config.key_part_size);
+            printf(" Sifted Keys:            ");
+            print_with_spaces(sifted_keys, config.key_part_size);
+            printf(" Key Distillation:       ");
+            print_with_spaces(key_distillation, config.key_part_size);
+            printf(" Key Bits Error:         ");
+            print_with_spaces(error_key, config.key_part_size);
+            printf(" Secret Keys:            ");
+            print_with_spaces(secret_keys, config.key_part_size);
+            printf(" Final Secret Keys:      ");
+            print_final_keys(secret_keys);
+
             free(error_key);
 
             if (key_bit_errors <= config.allowed_wrong_bits)
@@ -166,13 +161,13 @@ int main(int argc, char **argv)
                 // Copy key_section to final_key at the correct position
                 int offset_old = offset;
                 offset = copy_valid_keys(final_key, final_alice_key, secret_keys, key, offset, config.key_part_size);
-                if (global_count < 3)
-                {
-                    printf(" Final Alice Key Part:   %s\n", final_alice_key + offset_old);
-                    printf(" Final Bob Key Part:     %s\n", final_key + offset_old);
-                }
-                prev_section_num = section_num;
+
+                printf(" Final Alice Key Part:   %s\n", final_alice_key + offset_old);
+                printf(" Final Bob Key Part:     %s\n", final_key + offset_old);
+
                 section_num++;
+                prev_section_num = section_num;
+
                 // update error-bits-count
                 for (int k = 0; k < config.key_part_size; k++)
                     if (secret_keys[k] == '0' || secret_keys[k] == '1')
@@ -183,33 +178,26 @@ int main(int argc, char **argv)
                             else
                                 statistics.final_calib_error_bits_count++;
                         }
-                // 4 dbg
-                if (global_count < 3)
-                {
-                    printf("\n Final Calibration Error Bits: %d\n", statistics.final_calib_error_bits_count);
-                    printf(" Final Eve Error Bits:         %d\n", statistics.final_eve_error_bits_count);
-                }
             }
             else
             {
+                prev_section_num++;
                 // check eve attack
                 if ((float)key_bit_errors * 100 / config.key_part_size > config.eve_error_percentage)
                 {
                     eve_attack_detected = 1;
                     statistics.eves_attack_detected++;
                 }
-                if (global_count < 3)
-                {
-                    printf("\n************************************************\n");
-                    printf("*              Key Bit Errors Report            *\n");
-                    printf("*************************************************\n");
-                    printf("* Key Bit Errors (calib & eve): %d               *\n", key_bit_errors);
-                    printf("* Eve Attack Detected:          %d               *\n", eve_attack_detected);
-                    printf("* Calibration Errors config:    %d               *\n", (config.calib_error_percentage * config.key_part_size) / 100);
-                    printf("* Allowed Error Bits:           %d               *\n", config.allowed_wrong_bits);
-                    printf("* Regenerating key section...                   *\n");
-                    printf("**************************************************\n");
-                }
+
+                printf("\n************************************************\n");
+                printf("*              Key Bit Errors Report            *\n");
+                printf("*************************************************\n");
+                printf("* Key Bit Errors (calib & eve): %d               *\n", key_bit_errors);
+                printf("* Eve Attack Detected:          %d               *\n", eve_attack_detected);
+                printf("* Calibration Errors config:    %d               *\n", (config.calib_error_percentage * config.key_part_size) / 100);
+                printf("* Allowed Error Bits:           %d               *\n", config.allowed_wrong_bits);
+                printf("* Regenerating key section...                   *\n");
+                printf("**************************************************\n");
             }
             key_bit_errors = 0;
             eve_attack_detected = 0;
@@ -217,7 +205,6 @@ int main(int argc, char **argv)
                 memset(key_eve_changed, ' ', config.key_part_size);
         }
         not_valid = 1;
-        global_count++;
     }
 
     final_key[config.key_size] = '\0'; // Ensure null-termination
@@ -255,13 +242,13 @@ int main(int argc, char **argv)
     printf("========================================================================================================\n\n");
 
     // calculate statistics
-    double correct_bits_measured = percent_of_correct_results(key_section, sifted_keys);
-    double correct_final_keys = percent_of_correct_final_keys(secret_keys, key_section);
-    // print statistics
-    printf("Statistics: \n");
-    printf("Bob measured %.2f%% correct bits using his basis\n", correct_bits_measured);
-    printf("Percent of correct final keys: %.2f%%\n", correct_final_keys);
-    printf("Detected %d key bit errors in a section of %d total bits\n\n", key_bit_errors, config.key_part_size);
+    // double correct_bits_measured = percent_of_correct_results(key_section, sifted_keys);
+    // double correct_final_keys = percent_of_correct_final_keys(secret_keys, key_section);
+    // // print statistics
+    // printf("Statistics: \n");
+    // printf("Bob measured %.2f%% correct bits using his basis\n", correct_bits_measured);
+    // printf("Percent of correct final keys: %.2f%%\n", correct_final_keys);
+    // printf("Detected %d key bit errors in a section of %d total bits\n\n", key_bit_errors, config.key_part_size);
 
     // Free allocated memory
     // Note - should be inside the loop
@@ -275,7 +262,7 @@ int main(int argc, char **argv)
     free(sifted_keys);
     free(key_distillation);
     free(secret_keys);
-    free(key_section);
+    // free(key_section);
 
     return 0;
 }
@@ -349,7 +336,7 @@ int write_to_file_final_keys(const char *secret_keys, const char *filename)
     size_written = fwrite(secret_keys, sizeof(char), config.key_size, fh);
     if (config.key_size != size_written)
     {
-        printf("Error: failed write secret-key to file\n");
+        printf("\nError: failed write secret-key to file\n");
         return -1;
     }
 
@@ -438,15 +425,15 @@ void read_config(int argc, char **argv)
     memset((void *)&config, 0, sizeof(config));
 
     // set default parameters values
-    config.key_size = 4096;
-    config.key_part_size = 64;
+    config.key_size = 1024;
+    config.key_part_size = 32;
     config.key_part_num = config.key_size / config.key_part_size;
     config.eavesdropping = 1;
     config.calib_error_percentage = 10;
     config.eve_error_percentage = 50;
     config.eve_percent_reproduce = 50;
     config.eve_percent_section = 50;
-    config.allowed_wrong_bits = 0;
+    config.allowed_wrong_bits = 1;
 
     // save arguments as config parameters
     for (int i = 1; i < argc; i++)
@@ -477,8 +464,7 @@ void read_config(int argc, char **argv)
     validate_params();
 
     // print the configuration parameters
-    if (global_count < 3)
-        print_config();
+    print_config();
 }
 
 // ******************************************************************************************** //
