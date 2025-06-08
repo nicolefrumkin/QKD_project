@@ -1,6 +1,7 @@
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/5d6b38fb-498d-4c0e-a6cc-40b5ac284d29" width="200" alt="QKD Simulator">
+  <img src="images/logo.png" width="200" alt="QKD Simulator">
 </p>
+
 
 # 🔐 Quantum Key Distribution (QKD) Simulator
 
@@ -17,10 +18,6 @@ Welcome screen of the simulator:
 ---
 
 ## ⚙️ Configuration Parameters
-
-Set parameters before starting the simulation:
-
-![Configuration Details](images/configuration_details.png)
 
 You can configure:
 - 🔢 Key size (e.g., 1024 bits)
@@ -118,5 +115,3 @@ This simulator was built as an educational tool to demonstrate how quantum mecha
 ---
 
 Feel free to experiment with the parameters and observe how Eve’s attack affects the final key 🔐
-
-```
