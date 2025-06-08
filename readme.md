@@ -2,89 +2,121 @@
   <img src="https://github.com/user-attachments/assets/5d6b38fb-498d-4c0e-a6cc-40b5ac284d29" width="200" alt="QKD Simulator">
 </p>
 
-# Quantum Key Distribution (QKD) Simulator
+# 🔐 Quantum Key Distribution (QKD) Simulator
 
-This project is a **Quantum Key Distribution (QKD)** simulator built using **Python** for the GUI and **C** for the backend simulation. The system enables users to simulate a QKD process with configurable parameters, visualize the results, and analyze the key distribution.
-
-## Overview
-
-Quantum Key Distribution (QKD) is a secure communication method that uses quantum mechanics to encrypt and exchange encryption keys. This simulator allows you to experiment with different configurations and observe the effects of eavesdropping, calibration errors, and more.
+This project demonstrates the principles of **Quantum Key Distribution (QKD)** using a visual Python interface and a C-based backend for the simulation. It shows how Alice and Bob can securely exchange a secret key - even with an eavesdropper (Eve) listening in.
 
 ---
 
-## Features
+## 🖥 GUI Overview
 
-- **Interactive GUI**: Built using Tkinter for parameter selection and result display.
-- **Configurable Settings**:
-  - Key Size
-  - Key Part Size
-  - Calibration Error Percentage
-  - Eavesdropping Options
-- **Visualization**: Displays the QKD process, including key generation, polarization, and measurement results.
-- **Error Simulation**: Includes calibration errors and eavesdropping attacks.
+Welcome screen of the simulator:
+
+![GUI Interface](images/GUI_Interface.png)
 
 ---
 
-## Screenshots
+## ⚙️ Configuration Parameters
 
-### GUI Interface
-![GUI Interface](./images/GUI_Interface.png)
+Set parameters before starting the simulation:
 
-### Configuration Details and Legend
-![Configuration Details and Legend](./images/Configuration_Details_and_Legend.png)
+![Configuration Details](images/configuration_details.png)
 
-### Section Results
-![Section Results](./images/Section_Results.png)
-
----
-
-## How It Works
-
-1. **Parameter Selection**: Use the GUI to set up the simulation parameters like key size, calibration error percentage, and eavesdropping.
-2. **Backend Simulation**: The Python program passes the parameters to a C program (`main.c`) for the QKD simulation.
-3. **Visualization**: The results are displayed in the GUI, with details like keys, measurement bases, and errors.
+You can configure:
+- 🔢 Key size (e.g., 1024 bits)
+- 🧩 Section size (e.g., 32 bits)
+- 🕵️‍♀️ Eve’s interference (enabled/disabled)
+- ⚠️ Calibration error %
+- 📊 Eve’s reproduction % and attacked sections
+- ❌ Allowed wrong bits per section
 
 ---
 
-## Getting Started
+## 🔄 How It Works
 
-### Prerequisites
-
-- **Python 3.x**: Install Python and necessary libraries like `tkinter` and `Pillow`.
-- **C Compiler**: Ensure you have a C compiler (e.g., GCC) to build the `main.c` program.
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/nicolefrumkin/QKD_project.git
-   cd QKD_project
-   ```
-
-2. Install Python dependencies:
-   ```bash
-   pip install Pillow
-   ```
-
-3. Compile the C program:
-   ```bash
-   gcc main.c -o main.exe
-   ```
+1. Alice creates a random bit string and encodes it in quantum states.
+2. Bob randomly selects measurement bases and attempts to read the bits.
+3. Eve may interfere with a subset of photons.
+4. Alice and Bob compare measurement bases.
+5. Correct bits are sifted and distilled into a key.
+6. Sections with too many errors are regenerated.
+7. The process continues until the full key is created.
 
 ---
 
-## Usage
+## 🧠 Symbol Legend
 
-1. Run the Python GUI:
-   ```bash
-   python qkd_gui.py
-   ```
+The legend below shows the symbols and their meanings used in the simulation output:
 
-2. Configure the simulation parameters using the GUI.
+![Legend](images/configuration_details.png) <!-- You may want to crop/replace this with a cleaner 'legend-only' image if desired -->
 
-3. Click **Submit** to start the simulation. The results will be displayed in the GUI.
 ---
-## Credits
-- **Developers**: Nicole Frumkin & Keren Koifman
-- **Languages Used**: Python, C
-- **Frameworks/Libraries**: Tkinter, PIL (Pillow)
+
+## 🧪 Example Section Output
+
+Each simulation shows detailed section-wise data, including polarization, measurements, Eve's impact, and key distillation:
+
+![Section Results](images/Section_Results.png)
+
+---
+
+## 🔑 Final Key
+
+Once enough valid sections are collected, the simulator builds the final secret key:
+
+![Final Key](images/final_key.png)
+
+---
+
+## 📈 Summary of Results
+
+At the end of the simulation, a summary is shown with detailed statistics:
+
+![Summary](images/summary.png)
+
+---
+
+## 🚀 How to Run
+
+### 🐍 Python GUI
+Make sure you have Python and dependencies (`tkinter`, `Pillow`) installed.
+
+```bash
+python qkd_gui.py
+````
+
+### 💻 Compile & Run C Simulator (optional)
+
+The simulator backend is written in C for performance.
+
+```bash
+gcc main.c -o main.exe
+./main.exe -k1024 -ps32 -e -ec1 -ee50 -ep25 -es10 -a1
+```
+
+---
+
+## 🧑‍💻 Authors
+
+* Nicole Frumkin
+* Keren Koifman
+
+---
+
+## 🎯 Project Goal
+
+This simulator was built as an educational tool to demonstrate how quantum mechanics can enable secure communication using QKD. It's interactive, visual, and accessible—even if you're new to quantum concepts.
+
+---
+
+## 📌 Notes
+
+* Press `ESC` to exit fullscreen in the GUI.
+* Built with Python 3, Tkinter, and C.
+* Tested on Windows.
+
+---
+
+Feel free to experiment with the parameters and observe how Eve’s attack affects the final key 🔐
+
+```
