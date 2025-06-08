@@ -491,7 +491,7 @@ def display_sections(parsed_data, parent_frame, saved_values=None):
     current_row = 0
     
     for section, content in parsed_data.items():
-        if count < 1000:
+        if count < 20:
             # Section card
             section_card = tk.Frame(sections_container, bg="#FFFFFF", relief="solid", bd=1, highlightbackground="#E5E7EB")
             section_card.pack(fill="x", pady=(0, 15))
@@ -667,7 +667,7 @@ image_frame = tk.Frame(left_side, bg=BACKGROUND_COLOR)
 image_frame.pack(pady=15)
 
 try:
-    image = Image.open("first_image2.jpg")
+    image = Image.open("images/first_image.jpg")
     image = image.resize((500,341), Image.Resampling.LANCZOS)
     photo = ImageTk.PhotoImage(image)
     
