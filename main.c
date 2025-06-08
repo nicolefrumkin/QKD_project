@@ -55,23 +55,23 @@ int main(int argc, char **argv)
     srand((unsigned int)time(NULL));
 
     // print symbols
-    printf("--------------------------------------------------------------------------------------------------------\n");
-    printf("                                   Basis Symbols & Key Generation                                     \n");
-    printf("--------------------------------------------------------------------------------------------------------\n");
+    // printf("--------------------------------------------------------------------------------------------------------\n");
+    // printf("                                   Basis Symbols & Key Generation                                     \n");
+    // printf("--------------------------------------------------------------------------------------------------------\n");
 
-    printf(" Basis Symbols: \n"
-           "   + - Rectilinear Basis \n"
-           "   x - Diagonal Basis \n\n"
-           " Filter Symbols:\n"
-           "   (bit = 1):\n"
-           "   d - Diagonal 45 degrees (/) \n"
-           "   v - Vertical (|) \n"
-           "   (bit = 0):\n"
-           "   h - Horizontal (-) \n"
-           "   b - Diagonal -45 degrees (\\)\n\n"
-           " Measurements Symbols:\n"
-           "   v - Correct Measurement \n"
-           "   x - Wrong Measurement \n");
+    // printf(" Basis Symbols: \n"
+    //        "   + - Rectilinear Basis \n"
+    //        "   x - Diagonal Basis \n\n"
+    //        " Filter Symbols:\n"
+    //        "   (bit = 1):\n"
+    //        "   d - Diagonal 45 degrees (/) \n"
+    //        "   v - Vertical (|) \n"
+    //        "   (bit = 0):\n"
+    //        "   h - Horizontal (-) \n"
+    //        "   b - Diagonal -45 degrees (\\)\n\n"
+    //        " Measurements Symbols:\n"
+    //        "   v - Correct Measurement \n"
+    //        "   x - Wrong Measurement \n");
 
     // final bob key
     final_key = (char *)malloc(sizeof(char) * (config.key_size + 1));
@@ -188,16 +188,14 @@ int main(int argc, char **argv)
                     eve_attack_detected = 1;
                     statistics.eves_attack_detected++;
                 }
-
-                printf("\n************************************************\n");
-                printf("*              Key Bit Errors Report            *\n");
-                printf("*************************************************\n");
-                printf("* Key Bit Errors (calib & eve): %d               *\n", key_bit_errors);
-                printf("* Eve Attack Detected:          %d               *\n", eve_attack_detected);
-                printf("* Calibration Errors config:    %d               *\n", (config.calib_error_percentage * config.key_part_size) / 100);
-                printf("* Allowed Error Bits:           %d               *\n", config.allowed_wrong_bits);
-                printf("* Regenerating key section...                   *\n");
-                printf("**************************************************\n");
+                printf("\n================================================\n");
+                printf("              Key Bit Errors Report            \n");
+                printf("\n================================================\n");
+                printf(" Total Key Bit Errors: %d               \n", key_bit_errors);
+                printf(" Eve Attack Detected:          %d               \n", eve_attack_detected);
+                printf(" Calibration Errors config:    %d               \n", (config.calib_error_percentage * config.key_part_size) / 100);
+                printf(" Allowed Error Bits:           %d               \n", config.allowed_wrong_bits);
+                printf("\n================================================\n");
             }
             key_bit_errors = 0;
             eve_attack_detected = 0;
@@ -212,21 +210,21 @@ int main(int argc, char **argv)
     write_to_file_final_keys(final_key, "bob.key");
     write_to_file_final_keys(final_alice_key, "alice.key");
 
-    printf("\n========================================================================================================\n");
-    printf("                                     Final Key (%d bits)\n", count_bits(final_key));
-    printf("========================================================================================================\n\n");
+    printf("\n===================================================\n");
+    printf("              Final Key (%d bits)\n", count_bits(final_key));
+    printf("===================================================\n\n");
 
     print_with_spaces(final_key, config.key_size);
-    printf("\n========================================================================================================\n");
-    printf("                               Summary of Key Generation Statistics:\n", count_bits(final_key));
-    printf("========================================================================================================\n\n");
+    printf("\n========================================================\n");
+    printf("        Summary of Key Generation Statistics:\n", count_bits(final_key));
+    printf("========================================================\n");
 
-    printf("\n  %-32s : %d / %-5d (%d%%)\n", "Final Calibration Error Bits", statistics.final_calib_error_bits_count, config.key_size,
-           (statistics.final_calib_error_bits_count * 100) / config.key_size);
-    printf("  %-32s : %d / %-5d (%d%%)\n", "Final Eve Error Bits", statistics.final_eve_error_bits_count, config.key_size,
-           (statistics.final_eve_error_bits_count * 100) / config.key_size);
+    printf("\n  %-32s : %d / %-5d (%.2f%%)\n", "Final Calibration Error Bits", statistics.final_calib_error_bits_count, config.key_size,
+           (double)(statistics.final_calib_error_bits_count * 100) / config.key_size);
+    printf("  %-32s : %d / %-5d (%.2f%%)\n", "Final Eve Error Bits", statistics.final_eve_error_bits_count, config.key_size,
+           (double)(statistics.final_eve_error_bits_count * 100) / config.key_size);
     printf("  %-32s : %d / %d\n", "Eve Attacks Detected", statistics.eves_attack_detected, statistics.eves_sections_participated);
-    printf("  %-32s : %d bits\n", "Final Key Size", config.key_size);
+    printf("  %-32s : %d bits\n", "Total Key Size", config.key_size);
     printf("  %-32s : %d bits\n", "Key Section Size", config.key_part_size);
     printf("  %-32s : %d bits\n", "Allowed Wrong Bits per Section", config.allowed_wrong_bits);
     printf("  %-32s : %d%%\n", "Calibration Error Percentage", config.calib_error_percentage);
@@ -239,7 +237,6 @@ int main(int argc, char **argv)
     clock_t end_time = clock();
     double time_taken = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
     printf("  %-32s : %.3f seconds\n\n", "Time Taken to Generate the Key", time_taken);
-    printf("========================================================================================================\n\n");
 
     // calculate statistics
     // double correct_bits_measured = percent_of_correct_results(key_section, sifted_keys);
@@ -291,7 +288,7 @@ void print_config(void)
 void print_with_spaces(const char *str, int size)
 {
     const int group_size = 4;
-    const int groups_per_line = 20; // 8 groups = 32 bits per line
+    const int groups_per_line = 10; // 8 groups = 32 bits per line
 
     for (int i = 0; i < size; i++)
     {
@@ -406,7 +403,7 @@ void validate_params(void)
         usage();
     }
 
-    if (!(config.eve_percent_reproduce == 0 || config.eve_percent_reproduce == 25 || config.eve_percent_reproduce == 50))
+    if (!(config.eve_percent_reproduce == 0 || config.eve_percent_reproduce == 10 || config.eve_percent_reproduce == 25 || config.eve_percent_reproduce == 50))
     {
         printf("\nError: illegal eve reproduce percentage (eve_percent_reproduce = %d)\n\n", config.eve_percent_reproduce);
         usage();
@@ -464,7 +461,7 @@ void read_config(int argc, char **argv)
     validate_params();
 
     // print the configuration parameters
-    print_config();
+    //print_config();
 }
 
 // ******************************************************************************************** //
@@ -669,17 +666,17 @@ char *compare_polars(char *single_photons, char *measurement_bases)
         // rectillinear case (+)
         if ((single_photons[i] == 'v' || single_photons[i] == 'h') && (measurement_bases[i] == '+'))
         {
-            measurement_results[i] = 'v';
+            measurement_results[i] = 'V';
         }
         // diagonal case (x)
         else if ((single_photons[i] == 'b' || single_photons[i] == 'd') && (measurement_bases[i] == 'x'))
         {
-            measurement_results[i] = 'v';
+            measurement_results[i] = 'V';
         }
         // no match found
         else
         {
-            measurement_results[i] = 'x';
+            measurement_results[i] = 'X';
         }
     }
 
@@ -708,14 +705,6 @@ char *create_bobs_key(char *single_photons, char *measurement_bases)
         }
         else
         {
-            //// guess bit
-            // rand_bit = rand() % 100;
-            // if (rand_bit < 50) {
-            //     bobs_key[i] = '1';  // First half (0-49) -> generate '1'
-            // }
-            // else {
-            //     bobs_key[i] = '0';  // Second half (50-99) -> generate '0'
-            // }
             bobs_key[i] = ' ';
         }
     }
@@ -735,7 +724,7 @@ char *create_sifted_keys(char *key, char *single_photons, char *measurement_resu
 
     for (int i = 0; i < config.key_part_size; i++)
     {
-        if (measurement_results[i] == 'v')
+        if (measurement_results[i] == 'V')
         {
             skey[i] = bobs_key[i];
         }
